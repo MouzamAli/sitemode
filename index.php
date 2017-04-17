@@ -1,154 +1,237 @@
-﻿﻿﻿<script>
+﻿﻿
 
-var bits=50; // how many bits
-var speed=20; // how fast - smaller is faster
-var bangs=9; // how many can be launched simultaneously (note that using too many can slow the script down)
-var colours=new Array("#03f", "#f03", "#0e0", "#93f", "#0cf", "#f93", "#f0c");
 
-var bangheight=new Array();
-var intensity=new Array();
-var colour=new Array();
-var Xpos=new Array();
-var Ypos=new Array();
-var dX=new Array();
-var dY=new Array();
-var stars=new Array();
-var decay=new Array();
-var swide=800;
-var shigh=600;
-var boddie;
-window.onload=function() { if (document.getElementById) {
-  var i;
-  boddie=document.createElement("div");
-  boddie.style.position="fixed";
-  boddie.style.top="0px";
-  boddie.style.left="0px";
-  boddie.style.overflow="visible";
-  boddie.style.width="1px";
-  boddie.style.height="1px";
-  boddie.style.backgroundColor="transparent";
-  document.body.appendChild(boddie);
-  set_width();
-  for (i=0; i<bangs; i++) {
-    write_fire(i);
-    launch(i);
-    setInterval('stepthrough('+i+')', speed);
-  }
-}}
-function write_fire(N) {
-  var i, rlef, rdow;
-  stars[N+'r']=createDiv('|', 12);
-  boddie.appendChild(stars[N+'r']);
-  for (i=bits*N; i<bits+bits*N; i++) {
-    stars[i]=createDiv('*', 13);
-    boddie.appendChild(stars[i]);
-  }
-}
-function createDiv(char, size) {
-  var div=document.createElement("div");
-  div.style.font=size+"px monospace";
-  div.style.position="absolute";
-  div.style.backgroundColor="transparent";
-  div.appendChild(document.createTextNode(char));
-  return (div);
-}
-function launch(N) {
-  colour[N]=Math.floor(Math.random()*colours.length);
-  Xpos[N+"r"]=swide*0.5;
-  Ypos[N+"r"]=shigh-5;
-  bangheight[N]=Math.round((0.5+Math.random())*shigh*0.4);
-  dX[N+"r"]=(Math.random()-0.5)*swide/bangheight[N];
-  if (dX[N+"r"]>1.25) stars[N+"r"].firstChild.nodeValue="/";
-  else if (dX[N+"r"]<-1.25) stars[N+"r"].firstChild.nodeValue="\\";
-  else stars[N+"r"].firstChild.nodeValue="|";
-  stars[N+"r"].style.color=colours[colour[N]];
-}
-function bang(N) {
-  var i, Z, A=0;
-  for (i=bits*N; i<bits+bits*N; i++) {
-    Z=stars[i].style;
-    Z.left=Xpos[i]+"px";
-    Z.top=Ypos[i]+"px";
-    if (decay[i]) decay[i]--;
-    else A++;
-    if (decay[i]==15) Z.fontSize="7px";
-    else if (decay[i]==7) Z.fontSize="2px";
-    else if (decay[i]==1) Z.visibility="hidden";
-    Xpos[i]+=dX[i];
-    Ypos[i]+=(dY[i]+=1.25/intensity[N]);
-  }
-  if (A!=bits) setTimeout("bang("+N+")", speed);
-}
-function stepthrough(N) {
-  var i, M, Z;
-  var oldx=Xpos[N+"r"];
-  var oldy=Ypos[N+"r"];
-  Xpos[N+"r"]+=dX[N+"r"];
-  Ypos[N+"r"]-=4;
-  if (Ypos[N+"r"]<bangheight[N]) {
-    M=Math.floor(Math.random()*3*colours.length);
-    intensity[N]=5+Math.random()*4;
-    for (i=N*bits; i<bits+bits*N; i++) {
-      Xpos[i]=Xpos[N+"r"];
-      Ypos[i]=Ypos[N+"r"];
-      dY[i]=(Math.random()-0.5)*intensity[N];
-      dX[i]=(Math.random()-0.5)*(intensity[N]-Math.abs(dY[i]))*1.25;
-      decay[i]=16+Math.floor(Math.random()*16);
-      Z=stars[i];
-      if (M<colours.length) Z.style.color=colours[i%2?colour[N]:M];
-      else if (M<2*colours.length) Z.style.color=colours[colour[N]];
-      else Z.style.color=colours[i%colours.length];
-      Z.style.fontSize="13px";
-      Z.style.visibility="visible";
-    }
-    bang(N);
-    launch(N);
-  }
-  stars[N+"r"].style.left=oldx+"px";
-  stars[N+"r"].style.top=oldy+"px";
-}
-window.onresize=set_width;
-function set_width() {
-  var sw_min=999999;
-  var sh_min=999999;
-  if (document.documentElement && document.documentElement.clientWidth) {
-    if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
-    if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
-  }
-  if (typeof(self.innerWidth)!="undefined" && self.innerWidth) {
-    if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
-    if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
-  }
-  if (document.body.clientWidth) {
-    if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
-    if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
-  }
-  if (sw_min==999999 || sh_min==999999) {
-    sw_min=800;
-    sh_min=600;
-  }
-  swide=sw_min;
-  shigh=sh_min;
-}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <link href="https://fonts.googleapis.com/css?family=Bungee|Ceviche+One|Chela+One|Chewy|Creepster|Orbitron|Shojumaru|Metal+Mania" rel="stylesheet">
 
-</script>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>MOUZAM ALI BOT MASTER&trade;</title>
-<link rel="stylesheet" type="text/css" href="flambon.css" media="all,handheld"/><link rel="shortcut icon" href="back.js">
-<div style="font-family: Iceland;
-font-size: 60pt">
-<center><script language="JavaScript" src="header.js"></script></font></center>
-<center><hr style="background-color:white;width:60%;"><center>
-<center>
-		 <a target="_blank"  href="https://www.facebook.com/100008214849258"><img src="https://graph.facebook.com/100008214849258/picture?width=300" alt="" style="border-radius: 99em; border: 1.5px; box-shadow: 0px 0px 11px 9px 	#B22222; padding: 0px;" width="150" height="150" title=""/></a><a target="_blank"  href="https://www.facebook.com/100003995456213"><img src="https://graph.facebook.com/100003995456213/picture?width=400" alt="" style="border-radius: 99em; border: 2px; box-shadow: 0px 0px 15px 10px 	#B22222; padding: 0px;" width="200" height="200" title=""/></a><a target="_blank"  href="https://www.facebook.com/100001389421473"><img src="https://graph.facebook.com/100001389421473/picture?width=300" alt="" style="border-radius: 99em; border: 1.5px; box-shadow: 0px 0px 11px 9px 	#B22222; padding: 0px;" width="150" height="150" title=""/></a></div>
+    <link href="new.css" rel="stylesheet" type="text/css">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>MOUZAM ALI™</title>
+        <font style="background: url(&quot;http://i106.photobucket.com/albums/m280/YukioKenshin/chopnhay.gif&quot;) repeat scroll 0% 0% transparent;color:#fff; text-shadow: 0pt 0pt 0.9em blue, 0pt 2pt 0.9em blue; color:white; font-family: Chewy, cursive; font-size:70px;">
+				<b>
+					MOUZAM ALI & SYED KASHIF SHAH
+				</b>
+			</font>
+		</h2>
+		<center>
+					<a href="https://www.facebook.com/mouzamali.66" target="_blank">
+						<img src="http://i.imgur.com/1zjrslo.jpg" style="border: 2px solid #fff; padding: 4px; margin: 4px; width: 140px; height: 140px; float: center;" alt="Yasir" class="thumbnail"/>
+					</a>
+    					<a href="https://www.facebook.com/SyedKashifShah143" target="_blank">
+						<img src="http://i.imgur.com/2mFT8hY.jpg" style="border: 2px solid #FFF; padding: 4px; margin: 4px; width: 140px; height: 140px; float: center;" alt="Mughal" class="thumbnail"/>
+					</a>
+				</center>
+				<font face="Orbitron" size="5" style= "text-shadow: 0px 0px 10px rgb(255, 0, 0), 0px 0px 10px rgb(255, 0, 0), 0px 0px 10px rgb(255, 0, 0); color: rgb(255, 255, 255); font-weight: bold;">
+					Script &copy; 2017 - 2020
+				</font> <br />
 </br>
 <hr style="background-color:white;width:40%;"></br>
-<center>
+</h2></div>
+<script type='text/javascript' src=''></script>
+        <style>
+html{
+    text-align:center;
+}
+@font-face {
+
+    font-family: AwiFont;
+
+    src: url(awi.ttf);
+
+}
+#footer{
+    font-family:AwiFont;
+}
+#header{
+    font-family:AwiFont;
+}
+.button1 {
+    font-family:AwiFont;
+    background-color:#930000;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    width: 140px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+
+}
+
+.button1:hover{
+    font-family:AwiFont;
+    background-color: #420101;
+    color: #fff;
+    border: 1px solid #000000;
+}
+.button2 {
+    font-family:AwiFont;
+    background-color:#00CD06;
+     border: none;
+    border-radius: 30px;
+    color: white;
+    width: 140px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;;
+
+}
+
+.button2:hover {
+    font-family:AwiFont;
+    background-color: #087D00;
+    color: #fff;
+    border: 1px solid #000000;
+}
+.button3 {
+    font-family:AwiFont;
+    background-color:#0003CF;
+     border: none;
+    border-radius: 30px;
+    color: white;
+    width: 140px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;;
+
+}
+
+.button3:hover {
+    font-family:AwiFont;
+    background-color: #01015E;
+    color: #fff;
+    border: 1px solid #000000;;
+}
+.button4 {
+    font-family:AwiFont;
+    background-color:#7B00FF;
+     border: none;
+    border-radius: 30px;
+    color: white;
+    width: 140px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;;
+}
+
+.button4:hover {
+    font-family:AwiFont;
+   background-color: #CC0000;
+    border: 1px solid #000000;
+}
+.button5 {
+    font-family:AwiFont;
+    background-color:#03bf55;
+     border: none;
+    border-radius: 30px;
+    color: white;
+    width: 140px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;;
+
+}
+
+.button5:hover {
+    font-family:AwiFont;
+   background-color: #12db04;
+    color: #fff;
+    border: 1px solid #000000; 
+}
+.button6 {
+    font-family:AwiFont;
+    background-color:#FFF000;
+     border: none;
+    border-radius: 30px;
+    color: white;
+    width: 500px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;;
+}
+
+.button6:hover {
+    font-family:AwiFont;
+    background-color: #FF0000;
+    color: #fff;
+    border: 1px solid #000000;
+}
+.button7 {
+    font-family:AwiFont;
+    margin-top: 400px;
+    background-color:#1f0289;
+     border: none;
+    border-radius: 30px;
+    color: white;
+    width: 180px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;;
+}
+
+.button7:hover {
+    font-family:AwiFont;
+    background-color: #04e3f7;
+    color: #fff;
+    border: 1px solid #000000; 
+}
+.button8 {
+    font-family:AwiFont;
+    margin-top: 400px;
+    background-color:#e54004;
+     border: none;
+    border-radius: 30px;
+    color: white;
+    width: 140px;
+    height: 35px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;;
+}
+
+.button8:hover {
+     background-color: #04e3f7;
+    color: #fff;
+    border: 1px solid #000000;
+}
+</style>
+
 <?php
-session_start();
 error_reporting(0);
-
 $bot=new bot();
-
 class bot{ 
 
 public function getGr($as,$bs){
@@ -172,9 +255,9 @@ $else=array_merge($ar,$uh);
         $else=$ar;
 }
 foreach($else as $b => $c){
-        $mouzamali[]=$b.'='.$c;
+        $botterx[]=$b.'='.$c;
 }
-$true='?'.implode('&',$mouzamali);
+$true='?'.implode('&',$botterx);
 $true=$this->getGr($mb,$true);
 $true=json_decode($this->
 one($true),true);
@@ -190,7 +273,7 @@ curl_setopt_array($cx,array(
 CURLOPT_URL => $url,
 CURLOPT_CONNECTTIMEOUT => 5,
 CURLOPT_RETURNTRANSFER => 1,
-CURLOPT_USERAGENT => 'DESCRIPTION BY mouzamali CH',
+CURLOPT_USERAGENT => 'DESCRIPTION by Umar Jalil',
 ));
 $ch=curl_exec($cx);
         curl_close($cx);
@@ -198,52 +281,52 @@ $ch=curl_exec($cx);
 }
 
 public function savEd($tk,$id,$a,$b,$o,$c,$z=null,$bb=null){
-if(!is_dir('mouzamali')){
-        mkdir('mouzamali');
+if(!is_dir('botterx')){
+        mkdir('botterx');
 }
 if($bb){
-$blue=fopen('mouzamali/'.$id,'w');
+$blue=fopen('botterx/'.$id,'w');
 fwrite($blue,$tk.'*'.$a.'*'.$b.'*'.$o.'*'.$c.'*'.$bb);
         fclose($blue);
 
-echo'<script type="text/javascript">alert("Info : Text Robot Has Been Created")</script>';
+echo'<script type="text/javascript">alert("INFO : Text robot telah dibuat")</script>';
 }else{
         if($z){
-if(file_exists('mouzamali/'.$id)){
-$file=file_get_contents('mouzamali/'.$id);
+if(file_exists('botterx/'.$id)){
+$file=file_get_contents('botterx/'.$id);
 $ex=explode('*',$file);
 $str=str_replace($ex[0],$tk,$file);
-$xs=fopen('mouzamali/'.$id,'w');
+$xs=fopen('botterx/'.$id,'w');
         fwrite($xs,$str);
         fclose($xs);
 }else{
 $str=$tk.'*'.$a.'*'.$b.'*'.$o.'*'.$c;
-$xs=fopen('mouzamali/'.$id,'w');
+$xs=fopen('botterx/'.$id,'w');
         fwrite($xs,$str);
         fclose($xs);
 }
 $_SESSION[key]=$tk.'_'.$id;
 }else{
-$file=file_get_contents('mouzamali/'.$id);
+$file=file_get_contents('botterx/'.$id);
 $file=explode('*',$file);
         if($file[5]){
-$up=fopen('mouzamali/'.$id,'w');
+$up=fopen('CH/'.$id,'w');
 fwrite($up,$tk.'*'.$a.'*'.$b.'*'.$o.'*'.$c.'*'.$file[5]);
         fclose($up);
         }else{
-$up=fopen('mouzamali/'.$id,'w');
+$up=fopen('CH/'.$id,'w');
 fwrite($up,$tk.'*'.$a.'*'.$b.'*'.$o.'*'.$c);
         fclose($up);
         }
-echo'<script type="text/javascript">alert("Info : Data Has Been Saved Successfully Robot Will Run Automatically")</script>';}}
+echo'<script type="text/javascript">alert("INFO : Data Anda telah ter Save, Robot berjalan otomatis")</script>';}}
 }
 
 public function lOgbot($d){
-        unlink('mouzamali/'.$d);
+        unlink('botterx/'.$d);
         unset($_SESSION[key]);
 
 echo'
-<script type="text/javascript">alert("Info : Logout Success")
+<script type="text/javascript">alert("INFO : Logout success")
 </script>';
 
         $this->atas();
@@ -252,51 +335,50 @@ echo'
 }
 
 public function cek($tok,$id,$nm){
-$if=file_get_contents('mouzamali/'.$id);
+$if=file_get_contents('botterx/'.$id);
 $if=explode('*',$if);
 if(preg_match('/on/',$if[1])){
         $satu='on';
-        $ak='Like Add Comment';
+        $ak='Like tambah komen';
 }else{
         $satu='off';
-        $ak='Just Like';
+        $ak='Like saja';
 }
 if(preg_match('/on/',$if[2])){
         $dua='on';
-        $ik='Bot Emo';
+        $ik='Bot emo';
 }else{
         $dua='off';
-        $ik='Bot Manual';
+        $ik='Bot manual';
 }
 if(preg_match('/on/',$if[3])){
         $tiga='on';
-        $ek='Powered On';
+        $ek='Powered on';
 }else{
         $tiga='off';
-        $ek='Powered Off';
+        $ek='Powered off';
 }
 if(preg_match('/on/',$if[4])){
         $empat='on';
-        $uk='Text Via Script';
+        $uk='Text via script';
 }else{
         $empat='off';
-        $uk='Text Via Self';
+        $uk='Via text sendiri';
 }
 echo'
 <div id="bottom-content">
 <div id="navigation-menu">
+<h3><a name="navigation-name" class="no-link"> Welcome '.$nm.'</a></h3>
 <ul>
 <li>
-Thanks For Using My Bot Site : <font color="red">'.$nm.'</font></li>
+Welcome Back : <font color="red">'.$nm.'</font></li>
 <li>
 <a href="http://m.facebook.com/'.$id.'"><img src="https://graph.facebook.com/'.$id.'/picture" style="width:50px; height:50px;" alt="'.$nm.'"/></a></li>
 <li>
 <form action="index.php" method="post"><input type="hidden" name="logout" value="'.$id.'">
-<input type="submit" value="Logout Bot"></form></li>
+<input class="button1" type="submit" value="Logout Bot"></form></li>
 <li>
 <form action="index.php" method="post">
-Select Menu Robot :</li>
-<li>
 <select name="likes">';
         if($satu=='on'){
         echo'
@@ -304,7 +386,7 @@ Select Menu Robot :</li>
 '.$ak.'
 </option>
 <option value="off">
-Just Like</option>
+Like saja</option>
 </select>';
         }else{
         echo'
@@ -312,7 +394,7 @@ Just Like</option>
 '.$ak.'
 </option>
 <option value="on">
-Like Add Comment</option>
+Like tambah komen</option>
 </select>';
 }
 echo'</li>
@@ -324,7 +406,7 @@ echo'</li>
 '.$ik.'
 </option>
 <option value="off">
-Bot Manual</option>
+Bot manual</option>
 </select>';
         }else{
         echo'
@@ -332,7 +414,7 @@ Bot Manual</option>
 '.$ik.'
 </option>
 <option value="on">
-Bot Emo</option>
+Bot emo</option>
 </select>';
 }
 echo'</li>
@@ -344,7 +426,7 @@ echo'</li>
 '.$ek.'
 </option>
 <option value="off">
-Powered Off</option>
+Powered off</option>
 </select>';
         }else{
         echo'
@@ -352,7 +434,7 @@ Powered Off</option>
 '.$ek.'
 </option>
 <option value="on">
-Powered On</option>
+Powered on</option>
 </select>';
 }
 echo'</li>
@@ -364,7 +446,7 @@ echo'</li>
 '.$uk.'
 </option>
 <option value="off">
-Text Via Self</option>
+Via text sendiri</option>
 </select>';
 }else{
         if($if[5]){
@@ -374,14 +456,14 @@ Text Via Self</option>
 '.$uk.'
 </option>
 <option value="text">
-Replace Your Text
+Ganti Text Anda
 </option>
 <option value="on">
-Text Via Script</option>
+Text via script</option>
 </select>';
         }else{
         echo'
-Create Your Comments :
+Buat text Anda
 <br>
 <input type="text" name="text" style="height:30px;">
 <input type="hidden" name="opsi" value="'.$empat.'">';}
@@ -389,10 +471,9 @@ Create Your Comments :
 echo'
 </li>
 </ul></div>
-
 <div id="top-content">
 <div id="search-form">
-<input type="submit" value="Save"></form>
+<input class="button2" type="submit" value="SAVE"></form>
 </div></div></div>';
 
 $this->membEr();
@@ -421,7 +502,7 @@ $bulan=array(1=>
                "September",
           "October",
      "November",
-"December"
+"Desember"
 );
 
 $hr=$hari[gmdate('N',time()+60*60*7)];
@@ -432,69 +513,55 @@ $bulan[gmdate('n',time()+60*60
 $thn=gmdate('Y',time()+60*60*7);
 $jam=gmdate('H',time()+60*60*7);
 
-echo'
-<div id="header">
-<h1 class="heading">
-</h1>
-<h2 class="description">
+echo'<div id="header">
+<marquee behavior="scroll" direction="right" scrollamount="20" scrolldelay="6" width="100%">
 <b>
-
-</h2></div>';
+<font size="20" color="red">😈😈»</font><a class="sec" href="http://wap4dollar.com/ad/serve.php?id=t6n32w1gx1"><font color="green" size="20">💚ωσяℓ∂ 😉fαмσυѕ😎 вσттєяχ❤️</font></a></b> <font size="20" color="red"></font>
+</a>
+<a class="sec" href="http://wap4dollar.com/ad/serve.php?id=t6n32w1gx1"><font color="sky blue" size="20"></font></a></b><font size="20" color="red">«😈😈</font></marquee><br />
+</td></a></b></marquee><br/>
+</div></center>
+</div>';
 } 
 
 public function home(){
-echo'
-<div id="content">
-<div class="post">
-<div class="post-meta">
-<h2 class="title">
-<div class="post-content">
-
-<center></head>
-    <body>
-        <div id="main">
-            <div id="content">
-                <div class="header">
-<span class="mfss fcg">
-</span>
-</div></center><br>
-<span>
-<br>
-</span>
-</div>
-
-<div class="post-meta2">
-</div></div></div>';
+echo'<div id="content">
+</div>';
 }
 
 public function bwh(){
 echo'
 <div id="bottom-content">
 <div id="navigation-menu">
-</span>
-</div></center><br>
-<center>
-<h2 align="center"><font style="background: url(&quot;bg.gif&quot;) repeat scroll 0% 0% transparent;color:black; text-shadow: 0pt 0pt 0.9em black, 0pt 2pt 0.9em black;font-family:miaanFont;font-size:50px;"><b><a href="http://wap4dollar.com/ad/serve.php?id=t6n32w1gx1" target="_blank"> DOWNLOAD SCRIPT </a></b></font></h2>
-<h3><a name="navigation-name" class="no-link">→ NOW CLICK HERE TO WORKING TOKEN ←</a></h3>
-<h2 align="center"><font style="background: url(&quot;bg.gif&quot;) repeat scroll 0% 0% transparent;color:black; text-shadow: 0pt 0pt 0.9em black, 0pt 2pt 0.9em black;font-family:miaanFont;font-size:50px;"><b><a href="https://tokensite.herokuapp.com/" target="_blank"> CLICK HERE TO BLACK HUMER TOKEN </a></b></font></h2>
-<h2 align="center"><font style="background: url(&quot;bg.gif&quot;) repeat scroll 0% 0% transparent;color:black; text-shadow: 0pt 0pt 0.9em black, 0pt 2pt 0.9em black;font-family:miaanFont;font-size:50px;"><b><a href="http://tsndz.pro/gettoken.php" target="_blank"> CLICK HERE TO IPHONE TOKEN </a></b></font></h2>
-<h2 align="center"><font style="background: url(&quot;bg.gif&quot;) repeat scroll 0% 0% transparent;color:black; text-shadow: 0pt 0pt 0.9em black, 0pt 2pt 0.9em black;font-family:miaanFont;font-size:50px;"><b><a href="http://tharkii.tk/" target="_blank"> CLICK HERE TO ALL NEW TOKEN SITE </a></b></font></h2>
-<center>
-<ul>
-</center>
-<div id="top-content">
-<div id="search-form">
+<font face="Chela One" size="6" style="background: url(&quot;http://i106.photobucket.com/albums/m280/YukioKenshin/chopnhay.gif&quot;) repeat scroll 0% 0% transparent; color:#fff; text-shadow: 0pt 0pt 0.6em red, 0pt 2pt 0.6em red;">
+						⬇ GET WORKING TOKEN ⬇  <br />
+					</font>
 
-<form action="index.php" method="post"><input class="inp-text" type="text" style="height:28px;" name="token"> <input class="inp-btn" type="submit" style="height:28px;" value="Submit"></form></div></div></div>';
+<a href="http://tharkii.tk/" target="_blank">
+
+<input class="button button5" type="button" value="GET TOKEN"></a>
+
+<a href="http://dev-boter-boy.pantheonsite.io/" target="_blank">
+
+<input class="button button5" type="button" value="GET TOKEN 2"></a>
+
+<a href="http://wap4dollar.com/ad/pops/?id=er4ka987o0" target="_blank">
+
+<input class="button button5" type="button" value="DOWNLOAD SCRIPT"></a>
+<form action="index.php" method="post">
+<input class="button6" type="text" placeholder="Paste Your Token Here" st name="token"> 
+<br>
+<input class="button8" type="submit" value="SUBMIT">
+</form></div></div></div>';
 
 $this->membEr();
 }
 
 public function membEr(){
-        if(!is_dir('mouzamali')){
-        mkdir('mouzamali');
+        if(!is_dir('botterx')){
+        mkdir('botterx');
 }
-$up=opendir('mouzamali');
+$up=opendir('botterx');
 while($use=readdir($up)){
 if($use != '.' && $use != '..'){
         $user[]=$use;}
@@ -502,7 +569,7 @@ if($use != '.' && $use != '..'){
 
 echo'
 <div id="footer">
-FANS OF MOUZAM : <font color="red">'.count($user).'</font>
+<b><center><div style="font-size: 20pt;text-shadow: 0 0 11px #000000, 0 0 11px #000000, 0 0 11px #000000;color: #FFF"><font color="white"> FANS :-</font> <font color="#0A88FF">'.count($user).'</font></center></b>
 </div>';
 }
 
@@ -531,7 +598,7 @@ if($_POST[likes]){
         $cs=$_POST[opsi];
         $tx=$_POST[text];
 if($cs=='text'){
-        unlink('mouzamali/'.$b[id]);
+        unlink('botterx/'.$b[id]);
 $bot->savEd($a,$b[id],$as,$bs,$bx,'off');
         }else{
         if($tx){
@@ -543,9 +610,9 @@ $bot->savEd($a,$b[id],$as,$bs,$bx,$cs);}}
         $bot->home();
 $bot->cek($a,$b[id],$b[name]);
 }else{
-echo '<script type="text/javascript">alert("Info : Token Expired")</script>';
+echo '<script type="text/javascript">alert("INFO: Session Token Expired")</script>';
         unset($_SESSION[key]);
-        unlink('mouzamali/'.$ai[1]);
+        unlink('botterx/'.$ai[1]);
 $bot->atas();
 $bot->home();
         $bot->bwh();}}
@@ -567,7 +634,7 @@ $bot->savEd($tok,$b[id],'on','on','on','on','null');
         $bot->home();
 $bot->cek($tok,$b[id],$b[name]);
 }else{
-echo '<script type="text/javascript">alert("Info : Token Invalid")</script>';
+echo '';
         $bot->atas();
         $bot->home();
         $bot->bwh();}
@@ -581,7 +648,6 @@ if($_GET[token]){
         $bot->bwh();}}
 }
 ?>
-<audio autoplay loop>
-      <source src="http://download.mahamp3.com/986/Ijazat%20(Remix)%20-%20128Kbps.mp3">
-</audio>
-           </center><iframe src="https://web.facebook.com/plugins/video.php?href=https%3A%2F%2Fweb.facebook.com%2Fmouzamali.66%2Fvideos%2F916706481805858%2F&show_text=0&width=400" width="400" height="400" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+<audio controls="" autoplay="">
+  <source src="http://download.mahamp3.com/986/Ijazat%20(Remix)%20-%20128Kbps.mp3">
+  </audio>

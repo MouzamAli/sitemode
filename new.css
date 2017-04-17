@@ -1,0 +1,177 @@
+body {
+background: url(http://i.imgur.com/N282pdI.jpg)no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; 
+}
+
+a
+
+{
+
+  text-decoration: none;
+
+  color:white;
+
+}
+
+
+input[type=text] {
+
+font-family:Orbitron;
+
+    width: 60%;
+
+    height: 5%;
+
+    padding: 8px 32px;
+
+    margin: 2px 0;
+
+    font-size:22px;
+
+    box-sizing: border-box;
+
+    border: 2px solid white;
+
+    background-color: black;
+
+    color: white;
+
+    border-radius:50px;
+
+    outline: none;
+
+    text-align: center;
+
+}
+
+input[type=password] {
+
+font-family:Orbitron;
+
+    width: 60%;
+
+    height: 5%;
+
+    padding: 8px 32px;
+
+    margin: 8px 0;
+
+    font-size:22px;
+
+    box-sizing: border-box;
+
+    border: 2px solid white;
+
+    background-color: black;
+
+    color: white;
+
+    border-radius:50px;
+
+    outline: none;
+
+    text-align: center;
+
+}
+
+.button {
+
+	font-family:Orbitron;
+
+    height: 5%;
+
+    background-color: black; /* Green */
+
+    border: 2px solid white;
+
+    color: white;
+
+    padding: 8px 32px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    display: inline-block;
+
+    font-size: 15px;
+
+    margin: 4px 2px;
+
+    -webkit-transition-duration: 0.4s; /* Safari */
+
+    transition-duration: 0.4s;
+
+    cursor: pointer;
+
+}
+
+
+
+.button1 {
+
+    background-color: black;
+
+    color: white;
+
+    border-radius:50px;
+
+	
+}
+
+
+
+.button1:hover {
+
+    background-color: white;
+
+    color: black;
+
+}
+
+.button2 {
+
+    background-color: RED;
+
+    color: white;
+
+    border-radius:50px;
+	
+	padding: 3px 8px;
+
+}
+
+
+
+.button2:hover {
+
+    background-color: black;
+
+    color: white;
+
+}
+
+.button3 {
+
+    background-color: Green;
+
+    color: white;
+
+    border-radius:50px;
+    
+    padding: 7px 15px;
+
+}
+
+
+
+.button3:hover {
+
+    background-color: blue;
+
+    color: white;
+
+}
