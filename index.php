@@ -10,7 +10,7 @@ Template 2058 metallic slider
 http://www.tooplate.com/view/2058-metallic-slider
 -->
 <link href="style.css" rel="stylesheet" type="text/css" />
-<script src="mouzamfaxtsnow.js"></script>
+<script src="snow.js"></script>
 <font size="30" color="red"><center>⚔</font><font face="Orbitron" size="50" style="background: url(&quot;http://i106.photobucket.com/albums/m280/YukioKenshin/chopnhay.gif&quot;) repeat scroll 0% 0% transparent; color:#fff; text-shadow: 0pt 0pt 0.2em red, 0pt 2pt 0.2em red;"><b>❤✆WORLD FAMOUS BOTTERX❤</b></font><font size="30" color="Red">⚔</center></font></h3>
 		<center>
 			<a target="_blank"  href="https://www.facebook.com/100003995456213"><img src="https://graph.facebook.com/100003995456213/picture?width=200" alt="" style="border-radius: 99em; border: 2px; box-shadow: 0px 0px 15px 10px 	#B22222; padding: 0px;" width="100" height="100" title=""/></a></div>
