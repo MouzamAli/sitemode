@@ -127,7 +127,7 @@ $jam = str_replace($rpc,$sapa,gmdate('H',time()+60*60*7));
 
 return ' '.$jam.'#PaGLi👩 hame #Meer👑 keHte👥 hAi #RaaJ✌ KaRna t0o💋 HamAry👑 #kHo0on💕 me hAi💕💕💕
 
-#ChaHe wo.#kiLo🏰 pe h0o ya💞 #DiLo.pe________________________________POWERED BY <me> <3 WORLD FAMOUS BOTTERX <3__________________________<3 CREATER <3 MOUZAM ALI <3
+#ChaHe wo.#kiLo🏰 pe h0o ya💞 #DiLo.pe________________________<3 աօʀʟɖ ♡ ʄǟʍօʊ$ ♡ ɮօȶȶɛʀӼ <3______________________♥♡ OWNER <3 MOUZAM ALI ♥♡
 <3 SITE <3 (Y) KILLAER-BOT.TK (Y)
  '.$hr;
 }
